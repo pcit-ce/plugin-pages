@@ -21,7 +21,7 @@ if ! [ -d ${PCIT_LOCAL_DIR} ];then exit; fi
 
 rm -rf ${PCIT_LOCAL_DIR}/.git
 
-if [ ${PCIT_KEEP_HISTORY:-0} == 1 ];then
+if [ ${PCIT_KEEP_HISTORY:-'false'} = 'true' ];then
   git clone --bare -b ${PCIT_TARGET_BRANCH:-gh-pages} https://${PCIT_GIT_URL} ${PCIT_LOCAL_DIR}/.git || true
 fi
 
@@ -50,6 +50,6 @@ echo "git remote add origin https://${PCIT_USERNAME:-pcit-ce}:PCIT_GIT_TOKEN@${P
 git remote add origin https://${PCIT_USERNAME:-pcit-ce}:${PCIT_GIT_TOKEN}@${PCIT_GIT_URL}.git
 set -x
 
-if [ ${new:-false} == 'true' ];then git push origin master:${PCIT_TARGET_BRANCH:-gh-pages} ; exit 0; fi
+if [ ${new:-false} == 'true' ];then git push origin master:${PCIT_TARGET_BRANCH:-gh-pages} -f ; exit 0; fi
 
-git push origin ${PCIT_TARGET_BRANCH:-gh-pages}:${PCIT_TARGET_BRANCH:-gh-pages} || true
+git push origin ${PCIT_TARGET_BRANCH:-gh-pages}:${PCIT_TARGET_BRANCH:-gh-pages} -f || true
